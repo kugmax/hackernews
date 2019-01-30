@@ -76,6 +76,7 @@ class App extends Component {
       results: null,
       searchKey: '',
       searchTerm: DEFAULT_QUERY,
+      erro: null
     };
   }
 
@@ -130,7 +131,7 @@ class App extends Component {
     if (this.needsToSearchTopStories(searchTerm)) {
       this.fetchSearchTopStories(searchTerm);
     }
-    
+
     event.preventDefault();
   }
 
@@ -139,11 +140,15 @@ class App extends Component {
       &${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
     .then(response => response.json())
     .then(json => this.setSearchTopStories(json))
-    .catch(error => error);
+    .catch(error => this.setState({ error }));
   }
 
   render() {
-    const { searchTerm, results, searchKey } = this.state;
+    const { searchTerm, results, searchKey, error } = this.state;
+
+
+
+
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
     const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
@@ -158,9 +163,15 @@ class App extends Component {
             Search
           </Search>
         </div>
-        <BooksList
-            list={list}
-            onDismissHandler={this.onDismiss}/>
+        { error
+          ? <div className="interactions">
+            <p>Something went wrong.</p>
+          </div>
+          :
+          <BooksList
+              list={list}
+              onDismissHandler={this.onDismiss}/>
+        }
         <div className="interactions">
           <Button onClick={() => this.fetchSearchTopStories(searchKey, page+1)}>
             More
