@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios'
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
@@ -12,7 +12,7 @@ const PARAM_PAGE = 'page='
 const PARAM_HPP = 'hitsPerPage='
 
 const BookNode = ({index, book, onDismissHandler}) =>
-  <div key={book.objectID} className="table-row">
+  <div className="table-row">
     <span style={{width: '2%'}}>
       {index}
     </span>
@@ -43,8 +43,8 @@ const BookNode = ({index, book, onDismissHandler}) =>
 const BooksList = ({list, onDismissHandler}) =>
   list
   .map( (item, index) =>
-    <div calssName="table">
-      <BookNode index= {index + 1} book={item} onDismissHandler={onDismissHandler}/>
+    <div className="table">
+      <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>
     </div>
   );
 
@@ -136,19 +136,14 @@ class App extends Component {
   }
 
   fetchSearchTopStories = (searchTerm, page=0) => {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}
+    axios(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}
       &${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-    .then(response => response.json())
-    .then(json => this.setSearchTopStories(json))
+    .then(respons => this.setSearchTopStories(respons.data))
     .catch(error => this.setState({ error }));
   }
 
   render() {
     const { searchTerm, results, searchKey, error } = this.state;
-
-
-
-
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
     const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
