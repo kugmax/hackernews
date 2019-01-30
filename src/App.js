@@ -3,16 +3,26 @@ import logo from './logo.svg';
 import './App.css';
 
 const DEFAULT_QUERY = 'redux';
+const DEFAULT_HPP = '100'
+
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
+const PARAM_PAGE = 'page='
+const PARAM_HPP = 'hitsPerPage='
 
-const BookNode = ({book, onDismissHandler}) =>
+const BookNode = ({index, book, onDismissHandler}) =>
   <div key={book.objectID} className="table-row">
+    <span style={{width: '2%'}}>
+      {index}
+    </span>
+    <span style={{width: '5%'}}>
+      {book.objectID}
+    </span>
     <span style={{width: '40%'}}>
       <a target="_blank" href={book.url}>{book.title}</a>
     </span>
-    <span style={{width: '30%'}}>
+    <span style={{width: '20%'}}>
       {book.author}
     </span>
     <span style={{width: '10%'}}>
@@ -32,9 +42,9 @@ const BookNode = ({book, onDismissHandler}) =>
 
 const BooksList = ({list, onDismissHandler}) =>
   list
-  .map(item =>
+  .map( (item, index) =>
     <div calssName="table">
-      <BookNode book={item} onDismissHandler={onDismissHandler}/>
+      <BookNode index= {index + 1} book={item} onDismissHandler={onDismissHandler}/>
     </div>
   );
 
@@ -69,8 +79,16 @@ class App extends Component {
   }
 
   setSearchTopStories = (result) => {
-    this.setState({result});
     console.log(result)
+
+    const {hits, page} = result;
+    const oldHits = page !== 0 ? this.state.result.hits : [];
+    const updatedHits = [...oldHits, ...hits];
+
+    this.setState({
+      result: {hits: updatedHits, page}
+    })
+
   }
 
   componentDidMount = () => {
@@ -97,8 +115,9 @@ class App extends Component {
     event.preventDefault();
   }
 
-  fetchSearchTopStories = (searchTerm) => {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+  fetchSearchTopStories = (searchTerm, page=0) => {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}
+      &${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
     .then(response => response.json())
     .then(result => this.setSearchTopStories(result))
     .catch(error => error);
@@ -106,6 +125,7 @@ class App extends Component {
 
   render() {
     const { searchTerm, result } = this.state;
+    const page = (result && result.page) || 0;
 
     if (!result) {return null;}
 
@@ -128,6 +148,11 @@ class App extends Component {
             onDismissHandler={this.onDismiss}/>
           : null
         }
+        <div className="interactions">
+          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page+1)}>
+            More
+          </Button>
+        </div>
       </div>
     );
   }
