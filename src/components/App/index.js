@@ -1,73 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-import './App.css';
+import {
+  DEFAULT_QUERY, DEFAULT_HPP,
+  PATH_BASE, PATH_SEARCH, PARAM_SEARCH, PARAM_PAGE, PARAM_HPP
+} from '../../constants';
+import Button from '../Button';
+import Search from '../Search';
+import BooksList from '../Table';
 
-const DEFAULT_QUERY = 'redux';
-const DEFAULT_HPP = '100'
-
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page='
-const PARAM_HPP = 'hitsPerPage='
-
-const BookNode = ({index, book, onDismissHandler}) =>
-  <div className="table-row">
-    <span style={{width: '2%'}}>
-      {index}
-    </span>
-    <span style={{width: '5%'}}>
-      {book.objectID}
-    </span>
-    <span style={{width: '40%'}}>
-      <a target="_blank" href={book.url}>{book.title}</a>
-    </span>
-    <span style={{width: '20%'}}>
-      {book.author}
-    </span>
-    <span style={{width: '10%'}}>
-      {book.num_comments}
-    </span>
-    <span style={{width: '10%'}}>
-      {book.points}
-    </span>
-    <span style={{width: '10%'}}>
-      <Button
-        onClick={() => onDismissHandler(book.objectID)}
-        className="button-inline">
-        Dismiss
-      </Button>
-    </span>
-  </div>
-
-const BooksList = ({list, onDismissHandler}) =>
-  list
-  .map( (item, index) =>
-    <div className="table">
-      <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>
-    </div>
-  );
-
-const Search = ({value, onChange, onSubmit, children}) =>
-  <form onSubmit={onSubmit} className="table-header">
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-      />
-
-    <button type="submit">
-      {children}
-    </button>
-  </form>
-
-const Button = ({onClick, className = '', children}) =>
-  <button
-    onClick={onClick}
-    className={className}
-    type="button">
-    {children}
-  </button>
+import axios from 'axios';
+import './index.css';
 
 class App extends Component {
   constructor(props) {
