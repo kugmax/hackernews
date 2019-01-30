@@ -30,7 +30,7 @@ const BookNode = ({index, book, onDismissHandler}) =>
     </span>
   </div>
 
-const BooksList = ({list, onDismissHandler}) =>
+const BooksList = ({list, onDismissHandler = null}) =>
   list
   .map( (item, index) =>
     <div className="table">

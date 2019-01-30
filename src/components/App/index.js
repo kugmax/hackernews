@@ -89,7 +89,7 @@ class App extends Component {
     const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
     return (
-      <div className="page">
+      <div className="page">      
         <div className="interactions">
           <Search
             value={searchTerm}
@@ -119,3 +119,7 @@ class App extends Component {
 }
 
 export default App;
+
+export {
+  Button, Search, BooksList
+};
