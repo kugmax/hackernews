@@ -44,13 +44,13 @@ describe('Search', () => {
 describe('Button', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<Button>Give me more more!</Button>, div);
+    ReactDOM.render(<Button onClick={() => ''}>Give me more more!</Button>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <Button>Give me more</Button>
+      <Button onClick={() => ''}>Give me more</Button>
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('Button', () => {
 
   it ('should use className', () => {
     const element = shallow(
-      <Button className='giveMeMore'>Give me more</Button>
+      <Button className='giveMeMore' onClick={() => ''}>Give me more</Button>
     )
     expect(element.find('.giveMeMore').length).toBe(1)
   });
@@ -74,13 +74,13 @@ describe('BookList', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<BooksList { ...props }/>, div);
+    ReactDOM.render(<BooksList { ...props } onDismissHandler={() => ''}/>, div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   test('has a valid snapshot', () => {
     const component = renderer.create(
-      <BooksList { ...props }/>
+      <BooksList { ...props } onDismissHandler={() => ''}/>
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -88,7 +88,7 @@ describe('BookList', () => {
 
   it('shows tow items in list', () => {
     const element = mount(
-      <BooksList {...props}/>
+      <BooksList {...props} onDismissHandler={() => ''}/>
     );
     expect(element.find('.table').length).toBe(1);
     expect(element.find('.table-row').length).toBe(2);

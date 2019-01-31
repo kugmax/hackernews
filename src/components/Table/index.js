@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import PropTypes from 'prop-types';
 
 const BookNode = ({index, book, onDismissHandler}) =>
   <div className="table-row">
@@ -39,5 +40,10 @@ const BooksList = ({list, onDismissHandler = null}) => {
     </div>
   )
 }
+
+BooksList.propTypes = {
+  list: PropTypes.array.isRequired,
+  onDismissHandler: PropTypes.func.isRequired,
+};
 
 export default BooksList;
