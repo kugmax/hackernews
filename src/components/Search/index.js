@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const Search = ({value, onChange, onSubmit, children}) =>
-  <form onSubmit={onSubmit} className="table-header">
-    <input
-      type="text"
-      value={value}
-      onChange={onChange}
-      />
+export default class Search extends Component {
+  componentDidMount() {
+    if (this.input) {
+      this.input.focus();
+    }
+  }
 
-    <button type="submit">
-      {children}
-    </button>
-  </form>
+  render() {
+    const { value, onChange, onSubmit, children } = this.props;
 
-export default Search;
+    return (
+      <form onSubmit={onSubmit} className="table-header">
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+          ref={el => this.input = el}
+          />
+
+        <button type="submit">
+          {children}
+        </button>
+      </form>
+    )
+  };
+}
