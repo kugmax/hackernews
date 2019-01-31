@@ -30,12 +30,14 @@ const BookNode = ({index, book, onDismissHandler}) =>
     </span>
   </div>
 
-const BooksList = ({list, onDismissHandler = null}) =>
-  list
-  .map( (item, index) =>
+const BooksList = ({list, onDismissHandler = null}) => {
+  const books = list.map( (item, index) => <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>)
+
+  return (
     <div className="table">
-      <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>
+      { books }
     </div>
-  );
+  )
+}
 
 export default BooksList;

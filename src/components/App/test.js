@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import App, { Search, Button, BooksList } from './index';
 import renderer from 'react-test-renderer'
 
+import Enzyme, { shallow, render, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+Enzyme.configure({ adapter: new Adapter() });
+
 describe('App', () => {
   it('renders without crashing', () => {
     const div = document.createElement('div');
@@ -21,7 +26,7 @@ describe('App', () => {
 });
 
 describe('Search', () => {
-  if('renders without crashing', () => {
+  it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Search>Search</Search>, div);
     ReactDOM.unmountComponentAtNode(div);
@@ -37,7 +42,7 @@ describe('Search', () => {
 });
 
 describe('Button', () => {
-  if('renders without crashing', () => {
+  it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Button>Give me more more!</Button>, div);
     ReactDOM.unmountComponentAtNode(div);
@@ -50,6 +55,13 @@ describe('Button', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it ('should use className', () => {
+    const element = shallow(
+      <Button className='giveMeMore'>Give me more</Button>
+    )
+    expect(element.find('.giveMeMore').length).toBe(1)
+  });
 });
 
 describe('BookList', () => {
@@ -60,7 +72,7 @@ describe('BookList', () => {
     ],
   };
 
-  if('renders without crashing', () => {
+  it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<BooksList { ...props }/>, div);
     ReactDOM.unmountComponentAtNode(div);
@@ -72,6 +84,14 @@ describe('BookList', () => {
     );
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it('shows tow items in list', () => {
+    const element = mount(
+      <BooksList {...props}/>
+    );
+    expect(element.find('.table').length).toBe(1);
+    expect(element.find('.table-row').length).toBe(2);
   });
 
 });
