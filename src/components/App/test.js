@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App, { Search, Button, BooksList } from './index';
+import App, { Search, Button, BooksList, updateSearchTopStoriesState } from './index';
 import renderer from 'react-test-renderer'
 
 import Enzyme, { shallow, render, mount } from 'enzyme';
@@ -21,6 +21,26 @@ describe('App', () => {
       )
       const tree = component.toJSON();
       expect(tree).toMatchSnapshot();
+  });
+
+  it('', () => {
+    const hits = [3, 4];
+    const page = 1;
+
+    const prevState = {
+      searchKey: 'something',
+      results: {
+        something: {
+          hits: [1, 2],
+          page: 0
+        }
+      }
+    }
+
+    const updater = updateSearchTopStoriesState(hits, page);
+    const nexState = updater(prevState);
+    expect(nexState.results['something'].hits).toEqual([1, 2, 3, 4]);
+    expect(nexState.results['something'].page).toBe(1);
   });
 
 });
