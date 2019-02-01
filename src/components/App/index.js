@@ -13,9 +13,9 @@ import './index.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner , faSync} from '@fortawesome/free-solid-svg-icons'
+import { faSpinner , faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faSpinner, faSync )
+library.add(faSpinner, faArrowUp, faArrowDown )
 
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
   isLoading

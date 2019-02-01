@@ -4,20 +4,30 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { SORTS } from '../../constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
+const Sort = ({ sortKey, activeSortKey, isSortReverse, onSort, children }) => {
   const sortClass = classNames(
     'button-inline',
     { 'button-active': sortKey === activeSortKey}
   );
 
+  const sortArrow = classNames(
+    '',
+    { 'arrow-up': sortKey === activeSortKey && isSortReverse},
+    { 'arrow-down': sortKey === activeSortKey && !isSortReverse}
+  )
+
   return (
-    <Button
-      onClick={ () => onSort(sortKey) }
-      className={sortClass}
-      >
-      { children }
-    </Button>
+    <div>
+      <FontAwesomeIcon icon={sortArrow}/>
+      <Button
+        onClick={ () => onSort(sortKey) }
+        className={sortClass}
+        >
+        { children }
+      </Button>
+    </div>
   )
 }
 
@@ -64,6 +74,7 @@ const BooksList = ({list, sortKey, isSortReverse, onSort, onDismissHandler = nul
         <span style={{width: '40%'}}>
           <Sort
             sortKey={'TITLE'}
+            isSortReverse={isSortReverse}
             onSort={onSort}
             activeSortKey={sortKey}
             >
@@ -73,6 +84,7 @@ const BooksList = ({list, sortKey, isSortReverse, onSort, onDismissHandler = nul
         <span style={{width: '20%'}}>
           <Sort
             sortKey={'AUTHOR'}
+            isSortReverse={isSortReverse}
             onSort={onSort}
             activeSortKey={sortKey}
             >
@@ -82,6 +94,7 @@ const BooksList = ({list, sortKey, isSortReverse, onSort, onDismissHandler = nul
         <span style={{width: '10%'}}>
           <Sort
             sortKey={'COMMENTS'}
+            isSortReverse={isSortReverse}
             onSort={onSort}
             activeSortKey={sortKey}
             >
@@ -91,6 +104,7 @@ const BooksList = ({list, sortKey, isSortReverse, onSort, onDismissHandler = nul
         <span style={{width: '10%'}}>
           <Sort
             sortKey={'POINTS'}
+            isSortReverse={isSortReverse}
             onSort={onSort}
             activeSortKey={sortKey}
             >
