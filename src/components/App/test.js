@@ -70,6 +70,8 @@ describe('BookList', () => {
       {title: '1', author: 'Darth', num_comments: 1, points: 2, objectID: 'y'},
       {title: '2', author: 'Mauth', num_comments: 1, points: 2, objectID: 'z'},
     ],
+    sortKey: 'TITLE',
+    isSortReverse: false
   };
 
   it('renders without crashing', () => {
