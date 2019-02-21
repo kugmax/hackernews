@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -13,10 +13,10 @@ const Sort = ({ sortKey, activeSortKey, isSortReverse, onSort, children }) => {
   );
 
   const sortArrow = classNames(
-    {'': sortKey != activeSortKey},
+    {'': sortKey !== activeSortKey},
     { 'arrow-up': isSortReverse},
     { 'arrow-down': !isSortReverse}
-  )
+  );
 
   return (
     <div>
@@ -29,7 +29,7 @@ const Sort = ({ sortKey, activeSortKey, isSortReverse, onSort, children }) => {
       </Button>
     </div>
   )
-}
+};
 
 const BookNode = ({index, book, onDismissHandler}) =>
   <div className="table-row">
@@ -40,7 +40,7 @@ const BookNode = ({index, book, onDismissHandler}) =>
       {book.objectID}
     </span>
     <span style={{width: '40%'}}>
-      <a target="_blank" href={book.url}>{book.title}</a>
+      <a target="_blank" rel="noopener noreferrer" href={book.url}>{book.title}</a>
     </span>
     <span style={{width: '20%'}}>
       {book.author}
@@ -60,83 +60,71 @@ const BookNode = ({index, book, onDismissHandler}) =>
     </span>
   </div>
 
-export default class BooksList extends Component {
-  constructor(props) {
-    super(props)
+export default function BooksList({ list, onDismissHandler }) {
+    const [sortKey, setSortKey] = useState('NONE');
+    const [isSortReverse, setIsSortReverse] = useState(false);
 
-    this.state = {
-      sortKey: 'NONE',
-      isSortReverse: false
+    const onSort = (sortKey) => {
+        setSortKey(sortKey);
+        setIsSortReverse(!isSortReverse)
     };
-  }
-
-  onSort = (sortKey) => {
-    const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
-    this.setState({ sortKey, isSortReverse });
-  }
-
-  render() {
-    const { list, onDismissHandler } = this.props;
-    const { sortKey, isSortReverse } = this.state;
 
     const sortedList = isSortReverse ? SORTS[sortKey](list).reverse() : SORTS[sortKey](list);
-
     const books = sortedList.map( (item, index) =>
-      <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>)
+        <BookNode key={item.objectID} index={index + 1} book={item} onDismissHandler={onDismissHandler}/>)
 
     return (
-      <div className="table">
-        <div className="table-header">
-          <span style={{width: '2%'}}> </span>
-          <span style={{width: '5%'}}> </span>
-          <span style={{width: '40%'}}>
-            <Sort
-              sortKey={'TITLE'}
-              isSortReverse={isSortReverse}
-              onSort={this.onSort}
-              activeSortKey={sortKey}
-              >
-              Title
-            </Sort>
-          </span>
-          <span style={{width: '20%'}}>
-            <Sort
-              sortKey={'AUTHOR'}
-              isSortReverse={isSortReverse}
-              onSort={this.onSort}
-              activeSortKey={sortKey}
-              >
-              Author
-            </Sort>
-          </span>
-          <span style={{width: '10%'}}>
-            <Sort
-              sortKey={'COMMENTS'}
-              isSortReverse={isSortReverse}
-              onSort={this.onSort}
-              activeSortKey={sortKey}
-              >
-              Comments
-            </Sort>
-          </span>
-          <span style={{width: '10%'}}>
-            <Sort
-              sortKey={'POINTS'}
-              isSortReverse={isSortReverse}
-              onSort={this.onSort}
-              activeSortKey={sortKey}
-              >
-              Points
-            </Sort>
-          </span>
-          <span style={{width: '10%'}}>
-            Archive
-          </span>
-        </div>
-        { books }
-      </div>
+          <div className="table">
+            <div className="table-header">
+              <span style={{width: '2%'}}> </span>
+              <span style={{width: '5%'}}> </span>
+              <span style={{width: '40%'}}>
+                <Sort
+                  sortKey={'TITLE'}
+                  isSortReverse={isSortReverse}
+                  onSort={onSort}
+                  activeSortKey={sortKey}
+                  >
+                  Title
+                </Sort>
+              </span>
+              <span style={{width: '20%'}}>
+                <Sort
+                  sortKey={'AUTHOR'}
+                  isSortReverse={isSortReverse}
+                  onSort={onSort}
+                  activeSortKey={sortKey}
+                  >
+                  Author
+                </Sort>
+              </span>
+              <span style={{width: '10%'}}>
+                <Sort
+                  sortKey={'COMMENTS'}
+                  isSortReverse={isSortReverse}
+                  onSort={onSort}
+                  activeSortKey={sortKey}
+                  >
+                  Comments
+                </Sort>
+              </span>
+              <span style={{width: '10%'}}>
+                <Sort
+                  sortKey={'POINTS'}
+                  isSortReverse={isSortReverse}
+                  onSort={onSort}
+                  activeSortKey={sortKey}
+                  >
+                  Points
+                </Sort>
+              </span>
+              <span style={{width: '10%'}}>
+                Archive
+              </span>
+            </div>
+            { books }
+          </div>
     )
-  }
 }
 
 BooksList.propTypes = {

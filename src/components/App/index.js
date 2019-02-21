@@ -12,10 +12,9 @@ import axios from 'axios';
 import './index.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner , faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faSpinner, faArrowUp, faArrowDown )
+library.add(faSpinner, faArrowUp, faArrowDown );
 
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
   isLoading
@@ -68,7 +67,7 @@ class App extends Component {
     const { searchKey, results } = this.state;
     const { hits, page } = results[searchKey];
 
-    const isNotID = item => item.objectID != id;
+    const isNotID = item => item.objectID !== id;
     const updatedHits = hits.filter(isNotID);
 
     this.setState({

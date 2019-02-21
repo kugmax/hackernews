@@ -3,8 +3,17 @@ import ReactDOM from 'react-dom';
 import App, { Search, Button, BooksList, updateSearchTopStoriesState } from './index';
 import renderer from 'react-test-renderer'
 
-import Enzyme, { shallow, render, mount } from 'enzyme';
+import Enzyme, { shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner , faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faSpinner, faArrowUp, faArrowDown );
+
+// export function FontAwesomeIcon(props) {
+//   return <i className="fa" />
+// }
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -35,7 +44,7 @@ describe('App', () => {
           page: 0
         }
       }
-    }
+    };
 
     const updater = updateSearchTopStoriesState(hits, page);
     const nexState = updater(prevState);

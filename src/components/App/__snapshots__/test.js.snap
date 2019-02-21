@@ -284,6 +284,7 @@ exports[`BookList has a valid snapshot 1`] = `
       }
     >
       <a
+        rel="noopener noreferrer"
         target="_blank"
       >
         1
@@ -361,6 +362,7 @@ exports[`BookList has a valid snapshot 1`] = `
       }
     >
       <a
+        rel="noopener noreferrer"
         target="_blank"
       >
         2
