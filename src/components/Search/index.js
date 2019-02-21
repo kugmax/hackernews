@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { useRef, useEffect } from 'react';
 
-export default class Search extends Component {
-  componentDidMount() {
-    if (this.input) {
-      this.input.focus();
-    }
-  }
-
-  render() {
-    const { value, onChange, onSubmit, children } = this.props;
+export default function Search({ value, onChange, onSubmit, children } ) {
+    const inputEl = useRef(null);
+    useEffect(() => {
+        if (inputEl.current) {
+            inputEl.current.focus();
+          }
+        }
+        , [inputEl]
+    );
 
     return (
       <form onSubmit={onSubmit} className="table-header">
@@ -16,7 +16,7 @@ export default class Search extends Component {
           type="text"
           value={value}
           onChange={onChange}
-          ref={el => this.input = el}
+          ref={inputEl}
           />
 
         <button type="submit">
@@ -24,5 +24,4 @@ export default class Search extends Component {
         </button>
       </form>
     )
-  };
 }
