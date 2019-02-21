@@ -36,20 +36,20 @@ describe('App', () => {
     const hits = [3, 4];
     const page = 1;
 
-    const prevState = {
-      searchKey: 'something',
-      results: {
+
+    const searchKey = 'something';
+    const prevResults = {
         something: {
           hits: [1, 2],
           page: 0
         }
-      }
     };
 
     const updater = updateSearchTopStoriesState(hits, page);
-    const nexState = updater(prevState);
-    expect(nexState.results['something'].hits).toEqual([1, 2, 3, 4]);
-    expect(nexState.results['something'].page).toBe(1);
+    const nexResults = updater(searchKey, prevResults);
+
+    expect(nexResults['something'].hits).toEqual([1, 2, 3, 4]);
+    expect(nexResults['something'].page).toBe(1);
   });
 
 });
